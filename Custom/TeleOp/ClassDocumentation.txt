@@ -1,0 +1,283 @@
+Class Documentation
+-------------------------------------------------------------------------
+These are special classes that are built to be used in general. This goes along with logging, however it can be used without logging.
+    - Most Variables can be changed in the VariableHub, located in the HelperClasses folder, instead of going into the individual classes.
+-------------------------------------------------------------------------
+
+
+-----------------------------------------HardwareDevice Class----------------------------------------
+This class combines all the device classes
+[Public Method]    HardwareDeviceClass(LinearOpMode CurrentClass)
+    - Passes current class to create the device objects
+
+[Public Method]    SetMotorHardwareMap(String configName, DcMotor.Direction direction, boolean UseEncoder)
+    - Passes parameters to the DcMotor class
+    - Adds configName to ArrayList
+
+[Public Method]    SetCRServoHardwareMap(String configName, CRServo.Direction direction)
+    - Passes parameters to the CRServo class
+    - Adds configName to ArrayList
+
+[Public Method]    SetServoHardwareMap(String configName, double MillisecondDelay)
+    - Passes parameters to the Servo class
+    - Adds configName to ArrayList
+
+[Public Method]    SetCameraHardwareMap(String configName)
+    - Passes parameters to the Camera class
+    - Adds configName to ArrayList
+
+[Public Method]    GetMotor(String configName)
+    - Gets the specified motor, using the configName, in the ArrayList
+    - Returns DcMotor from DcMotorClass
+
+[Public Method]    GetCRServo(String configName)
+    - Gets the specified CRServo, using the configName, in the ArrayList
+    - Returns CRServo from CRServoClass
+
+[Public Method]    GetServo(String configName)
+    - Gets the specified Servo, using the configName, in the ArrayList
+    - Returns Servo from ServoClass
+
+[Public Method]    GetCamera(String configName)
+    - Gets the specified camera using the configName, in the ArrayList
+    - Returns Camera from CameraClass
+
+[Public Method]    HasDeviceValuesChanged()
+    - Checks if any of the devices values have changed
+    - Returns Boolean
+
+--------------------------------------------DcMotor Class--------------------------------------------
+[Public Method]    SetHardwareMap(LinearOpMode program,String configName, DcMotor.Direction Direction, boolean UseEncoder)
+    - Sets the hardwareMap for each device using the configName, direction, and if its using an encoder
+    - NOTE: You have to pass the current class into this method for the hardwareMap to work
+
+[Public Method]    SetPower(double Power)
+    - Sets the power for the specified motor
+    - By Default, it rounds the value to 3 decimal places.
+        - This can be changed by going into the DcMotorClass and changing the DecimalPlaces variable
+
+[Public Method]    GetPower()
+    - Returns motor power
+    - Returns double
+
+[Public Method]    GetCurrentPosition()
+    - Returns the current position if UseEncoder is set to true
+    - Returns int
+
+[Public Method]    SetMode(DcMotor.RunMode runMode)
+    - Sets the mode of the motor if UseEncoder is true
+    - This is used for setting a specific motor mode. Does not need to be set if used for logging
+
+[Public Method]    PowerHasChanged()
+    - Returns true if the power has changed
+    - Returns boolean
+
+[Public Variable] DcMotor dcMotor
+    - Default Value: null
+[Public Variable] String motorName
+    - Default Value: null
+[Public Variable] DcMotor.Direction direction
+    - Default Value: FORWARD
+[Public Variable] double currentPower
+[Public Variable] double previousPower
+[Public Variable] boolean useEncoder
+    - Default Value: false
+
+[Private Variable] int DecimalPlaces = 3;
+[Private Variable] boolean customMode = false;
+
+--------------------------------------------CRServo Class--------------------------------------------
+[Public Method]    SetHardwareMap(LinearOpMode program,String configName, CRServo.Direction Direction)
+    - Sets the hardwareMap for each device using the configName, and specifies the direction
+    - NOTE: You have to pass the current class into this method for the hardwareMap to work
+
+[Public Method]    SetPower(double Power)
+    - Sets the power for the specified CRServo
+    - By Default, it rounds the value to 3 decimal places.
+            - This can be changed by going into the CRServoClass and changing the DecimalPlaces variable
+
+[Public Method]    GetPower()
+    - Returns CRServo power
+    - Returns double
+
+[Public Method]    PowerHasChanged()
+    - Returns true if the power has changed
+    - Returns boolean
+
+[Public Variable] CRServo crServo
+    - Default Value: null
+[Public Variable] String crServoName
+    - Default Value: null
+[Public Variable] CRServo.Direction direction
+    - Default Value: FORWARD
+[Public Variable] double currentPower
+[Public Variable] double previousPower
+
+[Private Variable] int DecimalPlaces
+    - Default Value: 3
+
+---------------------------------------------Servo Class---------------------------------------------
+[Public Method]    SetHardwareMap(LinearOpMode program,String configName, double PauseMilliseconds)
+    - Sets the hardwareMap for each device using the configName, and an timer for each action
+    - NOTE: You have to pass the current class into this method for the hardwareMap to work
+
+[Public Method]    SetPosition(double position)
+    - Sets the position with the given servo
+
+[Public Method]    SetPositionHelper(double IncrementValue, double MinPosition, double MaxPosition)
+    - Helper wrapper for the logic using the increment, min, and max positions
+    - Used instead of the common SetPosition method
+
+[Public Method]    GetPosition()
+    - Returns the current position
+    - Returns double
+
+[Public Method]    PositionHasChanged()
+    - Returns true position changed
+    - Returns boolean
+
+[Public Method]    ReadyToSetNewPosition()
+    - Checks the timer if the PauseMilliseconds are past the time
+    - Returns boolean
+
+[Public Variable] Servo servo
+    - Default Value: null
+[Public Variable] String servoName
+    - Default Value: null
+[Public Variable] double currentPosition
+[Public Variable] double previousPosition
+
+[Private Variable] double pauseMilliseconds
+    - Default Value: 0
+
+--------------------------------------------Camera Class---------------------------------------------
+[Public Method]    SetHardwareMap(LinearOpMode Program, String ConfigName, Boolean IsItWebcam)
+    - Sets the hardwareMap for each device using the configName if its a webcam
+    - NOTE: You have to pass the current class into this method for the hardwareMap to work
+
+[Public Method]    SetupObjectDetection(boolean CustomAsset,String AssetFileName,String[] LabelArray)
+    - Calls the object Detection Class, and passes the necessary parameters for object detection to work
+    - NOTE: This DOES NOT give you access to the Object Detection Class
+
+[Public Method]    UseObjectDetectionClass()
+    - Allows access to the Object Detection class and all of its methods using the specified camera
+    - Returns ObjectDetection object from ObjectDetectionClass
+
+[Public Method]    IsWebCam()
+    - Gets if the camera is a webcam
+    - Returns boolean
+
+[Public Method]    IsPhoneCamera()
+    - Gets if this camera is a built-in phone camera
+    - Returns boolean
+
+[Public Method]    IsSwitchable()
+    - Gets if the camera has the functionality of switching to multiple cameras
+    - Returns Boolean
+    - NOTE: Really only used if there is more than 1 camera being used
+
+[Public Method]    IsUnknown()
+    - Gives if the camera is a unknown camera or intermediate camera
+    - Returns Boolean
+    - NOTE: Really only used if trying to catch an unknown camera
+
+[Public Variable] String configName
+    - Default Value: null
+[Public Variable] CameraName webcamName
+[Public Variable] boolean isItWebcam
+[Public Variable] ArrayList<ObjectDetectionClass> lstObjectDetection
+
+----------------------------------------ObjectDetection Class----------------------------------------
+NOTE: Due to limitations with the vuforia API and how FTC imported it, multiple simultaneous instances of vuforia do not work
+
+[Public Method]    ObjectDetectionClass(LinearOpMode Program ,String ConfigName, CameraName CameraName, boolean CustomAsset, String AssetFileName, String[] LabelArray)
+    - Gets required information for object detection
+    - NOTE: CAN be used outside of CameraClass, but I would not advise it
+    - NOTE: You have to pass the current class into this method for vuforia to work
+
+[Public Method]    SetParameters(VuforiaLocalizer.CameraDirection CameraDirection, float MinimumConfidence, boolean Flashlight, double SnapShotTime, double Zoom)
+    - Sets custom parameters for object detection.
+
+[Public Method]    UseVuforiaAndTensorFlow()
+    - Initializes vuforia and tensorflow
+    - Starts searching for objects
+    - Removes instances of vuforia and tensorflow
+
+[Public Method]    GetLabel()
+    - Returns the label that has been identified
+    - Returns string
+
+[Public Method]    GetConfidence()
+    - Returns the confidence level of how Vuforia/Tensorflow thinks what the object is
+    - Returns float
+
+[Public Method]    GetLabelIndex(String labelValue)
+    - Returns the label index if there are multiple labels
+    - Returns int
+
+[Public Method]    GetLabelListDelimited()
+    - Returns the label list as one string with delimiters
+    - Returns string
+
+[Private Method] Flashlight(Boolean OnOff)
+    - If its a built-in phone camera, it will turn the flashlight on or off
+    - Requires the "Flashlight" variable to be set to true
+
+[Public Variable] String assetFile
+[Public Variable] String[] labels
+[Public Variable] VuforiaLocalizer.CameraDirection cameraDirection
+    - Default Value: BACK
+[Public Variable] float minConfidence
+    - Default Value: 0.75f
+[Public Variable] double zoom
+    - Default Value: 1
+[Public Variable] String configName
+[Public Variable] CameraName cameraName
+[Public Variable] double durationMilliseconds
+    - Default Value: 5000
+[Public Variable] boolean useCustomAsset
+[Public Variable] boolean flashlight
+    - Default Value: false
+[Public Variable] int getLabelIndex
+
+[Private Variable] boolean isItWebcam
+    - Default Value: false
+[Private Variable] String getLabel
+[Private Variable] float getConfidence
+[Private Variable] String VuforiaKey
+    - Default Value: "Your teams vuforia key goes here"
+
+----------------------------------------------Log Class----------------------------------------------
+[Public Method]    LogClass(String Tag, HardwareDeviceClass hardwareDeviceClass)
+    - Creates the logcat tag
+    - Passes in all devices from HardwareDeviceClass
+
+[Private Method]    GetLogConfigInfo()
+    - Creates the config line that contains all devices and parameters
+
+[Public Method]    LogDevices()
+    - Logs everything using the current device powers/positions
+    - NOTE: Only logs when the values are changed, otherwise the log could be thousands of lines causing major overflow issues
+
+[Public Method]    LogObjectDetection()
+    - Logs the label index and label from object detection using the specified camera
+
+[Public Method]    ShowLogTelemetry()
+    - Displays telemetry on DS for the given mode and if something is found
+
+[Public Variable] boolean logDevice
+    - Default Value: false
+[Public Variable] boolean logDetection
+    - Default Value: false
+
+[Private Variable] boolean initialLogEntries
+    - Default Value: true
+[Private Variable] String TAG
+[Private Variable] String configBuffer
+[Private Variable] HardwareDeviceClass hardwareDeviceClass
+[Private Variable] String foundLabel
+[Private Variable] boolean logEnabled
+    - Default Value: false
+[Private Variable] boolean TelemetryLogDetection
+    - Default Value: false
+
