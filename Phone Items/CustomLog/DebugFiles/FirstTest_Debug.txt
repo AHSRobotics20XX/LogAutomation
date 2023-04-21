@@ -1,0 +1,47 @@
+Config: Master~DcMotor(L, FORWARD, false):DcMotor(R, REVERSE, false):DcMotor(l, FORWARD, false):DcMotor(r, REVERSE, false):CRServo(extender, FORWARD):Servo(pinch):Camera(camera, false):Detection(camera, PowerPlay.tflite, false, 1 Bolt~2 Bulb~3 Panel, FRONT, false, 0.75f, 5000.0, 1.0)
+Config: Current~DcMotor(L, FORWARD, false):DcMotor(R, REVERSE, false):DcMotor(l, FORWARD, false):DcMotor(r, REVERSE, false):CRServo(extender, FORWARD):Servo(pinch):Camera(camera, false):Detection(camera, PowerPlay.tflite, false, 1 Bolt~2 Bulb~3 Panel, FRONT, false, 0.75f, 5000.0, 1.0)
+
+PrevMethod: START
+
+Info: Device Type   : (DcMotor)
+Info: Name          : (L)
+Info: Direction     : (FORWARD)
+Info: Encoder       : (false)
+
+Info: Device Type   : (DcMotor)
+Info: Name          : (R)
+Info: Direction     : (REVERSE)
+Info: Encoder       : (false)
+
+Info: Device Type   : (DcMotor)
+Info: Name          : (l)
+Info: Direction     : (FORWARD)
+Info: Encoder       : (false)
+
+Info: Device Type   : (DcMotor)
+Info: Name          : (r)
+Info: Direction     : (REVERSE)
+Info: Encoder       : (false)
+
+Info: Device Type   : (CRServo)
+Info: Name          : (extender)
+Info: Direction     : (FORWARD)
+
+Info: Device Type   : (Servo)
+Info: Name          : (pinch)
+
+Info: Device Type   : (Camera)
+Info: Name          : (camera)
+Info: IsItWebcam    : (false)
+
+Info: Detection Items
+Info: Name          : (camera)
+Info: Asset File    : (PowerPlay.tflite)
+Info: Custom Asset  : (false)
+Info: Labels        : (1 Bolt~2 Bulb~3 Panel)
+Info: CamDirection  : (FRONT)
+Info: Flashlight    : (false)
+Info: Confidence    : (0.75f)
+Info: SnapshotTime  : (5000.0)
+Info: Zoom          : (1.0)
+

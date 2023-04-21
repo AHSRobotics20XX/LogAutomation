@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Custom.HelperClasses.FileIOClass;
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.ThreadClass;
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.VariableHub;
 
+import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -247,17 +248,22 @@ public class LogClass extends LinearOpMode
     {
         if (UseFileForLogging)
         {
-            ThreadClass threadClass = new ThreadClass();
             logBuffer.add(System.currentTimeMillis() + " I/" + TAG + ": " + Message);
 
-            if (isStopRequested())
-            {
-                threadClass.CreateFileWithBackgroundThread(logBuffer, FilePath);
-            }
+            System.out.println(">>>>>>>>>>>>>>>Get Here1");
         }
         else
         {
             Log.i(TAG, Message);
+        }
+    }
+
+    public void WriteFile()
+    {
+        if (program.isStopRequested())
+        {
+            ThreadClass threadClass = new ThreadClass();
+            threadClass.CreateFileWithBackgroundThread(logBuffer, FilePath);
         }
     }
 }

@@ -180,5 +180,6 @@ public class Driver2 extends LinearOpMode {
         }
 
         logClass.ShowLogTelemetry();
+        logClass.WriteFile();
     }
 }

@@ -7,7 +7,7 @@ public class VariableHub {
     public int CRServoDecimalPlaces = 3;
 
     //Autonomous Variables
-    public String programName = "Test2";
+    public String programName = "FirstTest";
     public boolean CreateDebugFile = true;
     public boolean CreateMergeLogFile = true;
 
