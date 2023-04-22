@@ -151,7 +151,7 @@ public class LogClass extends LinearOpMode
         }
 
         configBuffer = configBuffer.substring(1); // Removes first colon
-        LogMessage("CONFIG = " + configBuffer);
+        LogMessage("CONFIG = " + configBuffer, 0);
     }
 
     /**
@@ -172,25 +172,31 @@ public class LogClass extends LinearOpMode
 
         if (hardwareDeviceClass.HasDeviceValuesChanged())
         {
+            double sum = 0;
             for (int i = 0; i < hardwareDeviceClass.lstDcMotors.size(); i++)
             {
                 logEntry = logEntry + " " + hardwareDeviceClass.lstDcMotors.get(i).currentPower;
+                sum += hardwareDeviceClass.lstDcMotors.get(i).actionTime;
 
                 if (hardwareDeviceClass.lstDcMotors.get(i).useEncoder)
                 {
                     logEntry = logEntry + " " + hardwareDeviceClass.lstDcMotors.get(i).GetCurrentPosition();
                 }
             }
+
             for (int i = 0; i < hardwareDeviceClass.lstCRServos.size(); i++)
             {
                 logEntry = logEntry + " " + hardwareDeviceClass.lstCRServos.get(i).currentPower;
+                sum += hardwareDeviceClass.lstCRServos.get(i).actionTime;
             }
+
             for (int i = 0; i < hardwareDeviceClass.lstServos.size(); i++)
             {
                 logEntry = logEntry + " " + hardwareDeviceClass.lstServos.get(i).currentPosition;
+                sum += hardwareDeviceClass.lstServos.get(i).actionTime;
             }
             logEntry = logEntry.substring(1); // Removes first space
-            LogMessage("MOVE " + logEntry);
+            LogMessage("MOVE " + logEntry, sum);
         }
     }
 
@@ -216,7 +222,7 @@ public class LogClass extends LinearOpMode
                 foundLabel = hardwareDeviceClass.lstCameras.get(i).UseObjectDetectionClass().GetLabel();
                 int labelIndex = hardwareDeviceClass.lstCameras.get(i).UseObjectDetectionClass().GetLabelIndex(foundLabel) + 1;
 
-                LogMessage("DETECT " + String.valueOf(labelIndex) + " " + foundLabel);
+                LogMessage("DETECT " + String.valueOf(labelIndex) + " " + foundLabel, 0);
             }
         }
 
@@ -244,13 +250,11 @@ public class LogClass extends LinearOpMode
     /**
      * Added messages to logBuffer list
      */
-    private void LogMessage(String Message)
+    private void LogMessage(String Message, double ActionTime)
     {
         if (UseFileForLogging)
         {
-            logBuffer.add(System.currentTimeMillis() + " I/" + TAG + ": " + Message);
-
-            System.out.println(">>>>>>>>>>>>>>>Get Here1");
+            logBuffer.add(System.currentTimeMillis() + " " + ActionTime + " I/" + TAG + ": " + Message);
         }
         else
         {

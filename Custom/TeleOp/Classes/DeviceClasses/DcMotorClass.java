@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.VariableHub;
 
@@ -23,8 +24,11 @@ public class DcMotorClass extends LinearOpMode {
     public double currentPower;
     public double previousPower;
     public boolean useEncoder = false;
+    public double actionTime = 0;
+
     private boolean customMode = false;
     private int DecimalPlaces = variableHub.DcMotorDecimalPlaces;
+
 
 
     /**
@@ -65,15 +69,18 @@ public class DcMotorClass extends LinearOpMode {
      */
     public void SetPower(double Power)
     {
+        ElapsedTime timer = new ElapsedTime();
         double power = RoundDecimals(Power, DecimalPlaces);
 
         previousPower = currentPower;
         currentPower = power;
 
+        //timer.reset();
         if (currentPower != previousPower)
         {
             dcMotor.setPower(currentPower);
         }
+        actionTime = timer.milliseconds();
     }
 
     /**

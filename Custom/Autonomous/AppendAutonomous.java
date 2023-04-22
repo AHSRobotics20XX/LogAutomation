@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Custom.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.ArrayListClass;
@@ -10,9 +9,6 @@ import org.firstinspires.ftc.teamcode.Custom.HelperClasses.ParseClass;
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.ThreadClass;
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.VariableHub;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 @Autonomous(name="AutoGeneration", group="Tool")
@@ -321,7 +317,9 @@ public class AppendAutonomous extends LinearOpMode
         for (int i = beginIndex; i <= endIndex; i++)
         {
             String logLine = parseClass.StringAfterDelimiter(strippedLogLine.get(i), "MOVE ").replace(" ", ",");
-            String currentTimestamp = parseClass.StringBeforeDelimiter(rawLogLine.get(i), " ");
+
+            String currentTimestamp = GetTimeStamp(i);
+
             String nextTimeStamp;
 
             if (i == endIndex)
@@ -333,7 +331,7 @@ public class AppendAutonomous extends LinearOpMode
                 nextTimeStamp = parseClass.StringBeforeDelimiter(rawLogLine.get(i + 1), " ");
             }
 
-            double ms = GetTimeStamp(nextTimeStamp, currentTimestamp);
+            double ms = GetMilliseconds(nextTimeStamp, currentTimestamp);
             String msString = String.format("%.0f", ms);
 
             methodContents.add("        Move(" + msString + "," + logLine + ");");
@@ -348,7 +346,7 @@ public class AppendAutonomous extends LinearOpMode
         for (int j = beginIndex; j <= endIndex; j++)
         {
             String logLine = parseClass.StringAfterDelimiter(strippedLogLine.get(j), "MOVE ").replace(" ", ",");
-            String currentTimestamp = parseClass.StringBeforeDelimiter(rawLogLine.get(j), " ");
+            String currentTimestamp = GetTimeStamp(j);
             String nextTimeStamp;
 
             if (j == endIndex)
@@ -360,7 +358,7 @@ public class AppendAutonomous extends LinearOpMode
                 nextTimeStamp = parseClass.StringBeforeDelimiter(rawLogLine.get(j + 1), " ");
             }
 
-            double ms = GetTimeStamp(nextTimeStamp, currentTimestamp);
+            double ms = GetMilliseconds(nextTimeStamp, currentTimestamp);
             String msString = String.format("%.0f", ms);
 
             methodContents.add("        Move(" + msString + "," + logLine + ");");
@@ -570,7 +568,7 @@ public class AppendAutonomous extends LinearOpMode
             for (int j = beginIndex; j <= endIndex; j++)
             {
                 String logLine = parseClass.StringAfterDelimiter(strippedLogLine.get(j), "MOVE ").replace(" ", ",");
-                String currentTimestamp = parseClass.StringBeforeDelimiter(rawLogLine.get(j), " ");
+                String currentTimestamp = GetTimeStamp(j);
                 String nextTimeStamp;
 
                 if (j == endIndex)
@@ -582,7 +580,7 @@ public class AppendAutonomous extends LinearOpMode
                     nextTimeStamp = parseClass.StringBeforeDelimiter(rawLogLine.get(j + 1), " ");
                 }
 
-                double ms = GetTimeStamp(nextTimeStamp, currentTimestamp);
+                double ms = GetMilliseconds(nextTimeStamp, currentTimestamp);
                 String msString = String.format("%.0f", ms);
 
                 methodContents.add("            Move(" + msString + "," + logLine + ");");
@@ -806,10 +804,29 @@ public class AppendAutonomous extends LinearOpMode
             }
         }
     }
-    public static double GetTimeStamp(String NextTime, String CurrentTime)
+    public static double GetMilliseconds(String NextTime, String CurrentTime)
     {
         return (Double.parseDouble(NextTime) - Double.parseDouble(CurrentTime));
     }
+    public static String GetTimeStamp(int index)
+    {
+        String currentTime = parseClass.StringBeforeDelimiter(rawLogLine.get(index), " ");
+        String nextTimeSum;
+
+        if ((index + 1) == rawLogLine.size())
+        {
+            nextTimeSum = "0";
+        }
+        else
+        {
+            nextTimeSum = parseClass.StringBeforeDelimiter(parseClass.StringAfterDelimiter(rawLogLine.get(index + 1), " "), " ");
+        }
+
+        //Instead of subtracting, we add since we need to negate the currentTime
+        //and also negate timeSum. Adding them together allows us to subtract 1 value instead of both
+        return String.valueOf((Double.parseDouble(currentTime) + Double.parseDouble(nextTimeSum)));
+    }
+
     //endregion
 
     //region EndingMethods

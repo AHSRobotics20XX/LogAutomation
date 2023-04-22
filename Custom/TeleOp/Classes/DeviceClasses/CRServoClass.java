@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Custom.HelperClasses.VariableHub;
 
@@ -17,6 +18,7 @@ public class CRServoClass extends LinearOpMode {
     public double currentPower;
     public double previousPower;
     private int DecimalPlaces = variableHub.CRServoDecimalPlaces;
+    public double actionTime = 0;
 
     /**
      * Required for extension of LinearOpMode <p>
@@ -43,6 +45,7 @@ public class CRServoClass extends LinearOpMode {
      */
     public void SetPower(double Power)
     {
+        ElapsedTime timer = new ElapsedTime();
         double power = RoundDecimals(Power, DecimalPlaces);
         previousPower = currentPower;
         currentPower = power;
@@ -51,6 +54,7 @@ public class CRServoClass extends LinearOpMode {
         {
             crServo.setPower(currentPower);
         }
+        actionTime = timer.milliseconds();
     }
 
     /**

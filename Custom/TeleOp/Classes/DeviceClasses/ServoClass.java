@@ -17,6 +17,7 @@ public class ServoClass extends LinearOpMode {
 
     private ElapsedTime timer = new ElapsedTime();
     private double pauseMilliseconds = 0;
+    public double actionTime = 0;
 
     /**
      * Required for extension of LinearOpMode <p>
@@ -43,6 +44,7 @@ public class ServoClass extends LinearOpMode {
     {
         if (ReadyToSetNewPosition())
         {
+            ElapsedTime timer = new ElapsedTime();
             previousPosition = currentPosition;
             currentPosition = position;
 
@@ -50,6 +52,7 @@ public class ServoClass extends LinearOpMode {
             {
                 servo.setPosition(currentPosition);
             }
+            actionTime = timer.milliseconds();
         }
     }
 
